@@ -25,7 +25,7 @@ DEBUG = True
 DEBUG: включение/отключение режима отладки. В продакшене должно быть False.
 """
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 """
 ALLOWED_HOSTS: список разрешённых хостов для проекта.
 """

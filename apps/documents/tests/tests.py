@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth import get_user_model
 
-from .models import Document
+from apps.documents.models import Document
 
 User = get_user_model()
 

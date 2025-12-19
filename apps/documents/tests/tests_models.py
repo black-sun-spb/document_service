@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from .models import Document
+from apps.documents.models import Document
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 User = get_user_model()

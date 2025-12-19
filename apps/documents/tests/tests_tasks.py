@@ -3,8 +3,8 @@ from django.contrib.auth import get_user_model
 from django.core import mail
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import Document
-from .tasks import notify_user_document_status
+from apps.documents.models import Document
+from apps.documents.tasks import notify_user_document_status
 
 User = get_user_model()
 

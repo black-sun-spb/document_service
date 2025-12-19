@@ -3,8 +3,8 @@ from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .admin import DocumentAdmin
-from .models import Document
+from apps.documents.admin import DocumentAdmin
+from apps.documents.models import Document
 
 User = get_user_model()
 
