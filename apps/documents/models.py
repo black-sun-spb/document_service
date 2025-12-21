@@ -39,6 +39,9 @@ class Document(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
+    # Флаг: отправлено ли уведомление администратору
+    notification_sent = models.BooleanField(default=False)
+
     def __str__(self):
         """
         Строковое представление документа.

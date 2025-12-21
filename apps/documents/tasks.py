@@ -15,6 +15,11 @@ def notify_admin_new_document(document_id):
     Отправляет письмо на EMAIL администратора, указанного в настройках.
     """
     document = Document.objects.get(id=document_id)
+
+    # Если уведомление уже отправлялось — ничего не делаем
+    if document.notification_sent:
+        return
+
     send_mail(
         subject=f"Новый документ #{document.id}",
         message=f"Пользователь {document.user.username} загрузил документ #{document.id}.",
@@ -22,6 +27,10 @@ def notify_admin_new_document(document_id):
         recipient_list=[settings.ADMIN_EMAIL],
         fail_silently=False,
     )
+
+    # Помечаем, что уведомление отправлено
+    document.notification_sent = True
+    document.save(update_fields=["notification_sent"])
 
 
 @shared_task
