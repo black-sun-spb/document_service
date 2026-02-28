@@ -2,4 +2,11 @@ from django.apps import AppConfig
 
 
 class UsersConfig(AppConfig):
-    name = 'apps.users'
+    """
+    Конфигурация приложения Users.
+
+    Атрибуты:
+        name (str): Полный путь к приложению Django.
+    """
+
+    name = "apps.users"

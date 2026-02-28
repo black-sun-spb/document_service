@@ -3,23 +3,50 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import Document
 
+
 @shared_task
 def notify_admin_new_document(document_id):
+    """
+    Задача Celery для уведомления администратора о загрузке нового документа.
+
+    Args:
+        document_id (int): Идентификатор загруженного документа.
+
+    Отправляет письмо на EMAIL администратора, указанного в настройках.
+    """
     document = Document.objects.get(id=document_id)
+
+    # Если уведомление уже отправлялось — ничего не делаем
+    if document.notification_sent:
+        return
+
     send_mail(
-        subject=f'Новый документ #{document.id}',
-        message=f'Пользователь {document.user.username} загрузил документ #{document.id}.',
+        subject=f"Новый документ #{document.id}",
+        message=f"Пользователь {document.user.username} загрузил документ #{document.id}.",
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[settings.ADMIN_EMAIL],  # email админа
+        recipient_list=[settings.ADMIN_EMAIL],
         fail_silently=False,
     )
 
+    # Помечаем, что уведомление отправлено
+    document.notification_sent = True
+    document.save(update_fields=["notification_sent"])
+
+
 @shared_task
 def notify_user_document_status(document_id):
+    """
+    Задача Celery для уведомления пользователя о смене статуса его документа.
+
+    Args:
+        document_id (int): Идентификатор документа, статус которого изменился.
+
+    Отправляет письмо пользователю с информацией о текущем статусе документа.
+    """
     document = Document.objects.get(id=document_id)
     send_mail(
-        subject=f'Ваш документ #{document.id} теперь {document.status}',
-        message=f'Ваш документ #{document.id} теперь {document.status}.',
+        subject=f"Ваш документ #{document.id} теперь {document.status}",
+        message=f"Ваш документ #{document.id} теперь {document.status}.",
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[document.user.email],
         fail_silently=False,

@@ -1,0 +1,14 @@
+[flake8]
+# Максимальная длина строки
+max-line-length = 120
+
+# Игнорируем правила, которые часто конфликтуют с black
+ignore = E203, W503
+
+# Исключаем виртуальное окружение и миграции
+exclude =
+    .venv,
+    */migrations/*,
+    __pycache__,
+    staticfiles,
+    media
